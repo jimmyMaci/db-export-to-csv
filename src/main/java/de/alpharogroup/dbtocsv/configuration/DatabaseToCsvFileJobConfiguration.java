@@ -54,6 +54,7 @@ public class DatabaseToCsvFileJobConfiguration {
 
         return databaseReader;
     }
+    
     @Bean
     ItemWriter<FriendDto> databaseToCsvItemWriter() {
         FlatFileItemWriter<FriendDto> csvFileWriter = new FlatFileItemWriter<>();
