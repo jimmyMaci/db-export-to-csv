@@ -1,10 +1,17 @@
 spring:
-    batch:
-        initialize-schema: always
-    datasource:
-        driver-class-name: org.postgresql.Driver
-        type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/friends
-        jdbcUrl: ${spring.datasource.url}
-        username: postgres
-        password: ${spring.datasource.username}
+  batch:
+    initialize-schema: always
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/friends
+    jdbcUrl: ${spring.datasource.url}
+    username: postgres
+    password: ${spring.datasource.username}
+  brosdb-datasource:
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/bros
+    jdbcUrl: ${spring.brosdb-datasource.url}
+    username: postgres
+    password: ${spring.brosdb-datasource.username}
