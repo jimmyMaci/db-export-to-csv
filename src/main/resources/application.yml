@@ -8,3 +8,8 @@ spring:
         jdbcUrl: ${spring.datasource.url}
         username: postgres
         password: ${spring.datasource.username}
+
+app:
+   dir: ${user.home}/.db-export-to-csv
+   csv-dir: ${user.home}/tmp/
+   friends-filename: friends.csv

@@ -1,7 +1,6 @@
 package de.alpharogroup.dbtocsv.configuration;
 
-import de.alpharogroup.migration.dto.FriendDto;
-import de.alpharogroup.dbtocsv.writer.StringHeaderWriter;
+import javax.sql.DataSource;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -22,9 +21,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
-import javax.sql.DataSource;
+import de.alpharogroup.dbtocsv.writer.StringHeaderWriter;
+import de.alpharogroup.migration.dto.FriendDto;
+import lombok.AllArgsConstructor;
 
 @Configuration
+@AllArgsConstructor
 public class DatabaseToCsvFileJobConfiguration {
 
     @Autowired
@@ -33,16 +35,26 @@ public class DatabaseToCsvFileJobConfiguration {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
+	ApplicationProperties applicationProperties;
+
     @Autowired
     public DataSource dataSource;
 
     private static final String QUERY_FIND_FRIENDS =
             "SELECT " +
+                    "id, " +
                     "firstname, " +
                     "lastname, " +
                     "city " +
                     "FROM friends " +
                     "ORDER BY firstname ASC";
+
+
+	@Bean
+	public FileSystemResource friendsResource() {
+		String filePath = applicationProperties.getCsvDir() + "/" + applicationProperties.getFriendsFileName();
+		return new FileSystemResource(filePath);
+	}
 
     @Bean
     ItemReader<FriendDto> databaseToCsvItemReader() {
@@ -59,12 +71,10 @@ public class DatabaseToCsvFileJobConfiguration {
     ItemWriter<FriendDto> databaseToCsvItemWriter() {
         FlatFileItemWriter<FriendDto> csvFileWriter = new FlatFileItemWriter<>();
 
-        String exportFileHeader = "FIRSTNAME;LASTNAME;CITY";
+        String exportFileHeader = "ID;FIRSTNAME;LASTNAME;CITY";
         StringHeaderWriter headerWriter = new StringHeaderWriter(exportFileHeader);
         csvFileWriter.setHeaderCallback(headerWriter);
-        String userhome = System.getProperty("user.home");
-        String exportFilePath = userhome + "/tmp/friends.csv";
-        csvFileWriter.setResource(new FileSystemResource(exportFilePath));
+        csvFileWriter.setResource(friendsResource());
 
         LineAggregator<FriendDto> lineAggregator = newFriendLineAggregator();
         csvFileWriter.setLineAggregator(lineAggregator);

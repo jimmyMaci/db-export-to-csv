@@ -12,7 +12,7 @@
     
     <groupId>de.alpharogroup</groupId>
     <artifactId>db-export-to-csv</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1-SNAPSHOT</version>
     <name>db-to-csv</name>
     <description>Demo project for Spring Boot</description>
 
@@ -34,7 +34,12 @@
         <dependency>
         	<groupId>org.springframework.boot</groupId>
         	<artifactId>spring-boot-devtools</artifactId>
-        </dependency>
+        </dependency>		
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+		</dependency>
 		<!-- DTOS-TRANS DEPENDENCY -->
 		<dependency>
 			<groupId>de.alpharogroup</groupId>
