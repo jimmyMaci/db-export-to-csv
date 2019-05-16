@@ -1,6 +1,6 @@
 package de.alpharogroup.dbtocsv.configuration;
 
-import de.alpharogroup.dbtocsv.dto.FriendDto;
+import de.alpharogroup.migration.dto.FriendDto;
 import de.alpharogroup.dbtocsv.writer.StringHeaderWriter;
 
 import org.springframework.batch.core.Job;
@@ -54,7 +54,7 @@ public class DatabaseToCsvFileJobConfiguration {
 
         return databaseReader;
     }
-    
+
     @Bean
     ItemWriter<FriendDto> databaseToCsvItemWriter() {
         FlatFileItemWriter<FriendDto> csvFileWriter = new FlatFileItemWriter<>();
@@ -66,7 +66,7 @@ public class DatabaseToCsvFileJobConfiguration {
         String exportFilePath = userhome + "/tmp/friends.csv";
         csvFileWriter.setResource(new FileSystemResource(exportFilePath));
 
-        LineAggregator<FriendDto> lineAggregator = newPersonLineAggregator();
+        LineAggregator<FriendDto> lineAggregator = newFriendLineAggregator();
         csvFileWriter.setLineAggregator(lineAggregator);
 
         return csvFileWriter;
@@ -90,7 +90,7 @@ public class DatabaseToCsvFileJobConfiguration {
                 .build();
     }
 
-    private LineAggregator<FriendDto> newPersonLineAggregator() {
+    private LineAggregator<FriendDto> newFriendLineAggregator() {
         DelimitedLineAggregator<FriendDto> lineAggregator = new DelimitedLineAggregator<>();
         lineAggregator.setDelimiter(";");
         FieldExtractor<FriendDto> fieldExtractor = newPersonFieldExtractor();
@@ -100,7 +100,7 @@ public class DatabaseToCsvFileJobConfiguration {
 
     private FieldExtractor<FriendDto> newPersonFieldExtractor() {
         BeanWrapperFieldExtractor<FriendDto> extractor = new BeanWrapperFieldExtractor<>();
-        extractor.setNames(new String[] {"firstname", "lastname", "city"});
+        extractor.setNames(new String[] {"id", "firstname", "lastname", "city"});
         return extractor;
     }
 }
