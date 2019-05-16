@@ -23,7 +23,7 @@
 		<!-- JOBJ-CORE version -->
 		<jobj-core.version>3.2.1</jobj-core.version>
 		<!-- DTOS-TRANS version -->
-		<dtos-trans.version>1</dtos-trans.version>
+		<dtos-trans.version>1.1.1</dtos-trans.version>
 	</properties>
 
 	<dependencies>
